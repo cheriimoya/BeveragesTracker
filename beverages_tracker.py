@@ -12,7 +12,7 @@ class BeveragesTracker:
             while self.running:
                 id = self.read_id()
                 self.update_amount_for_id(id)
-                print('Update: ' + str(self.entries))
+                print('Updated: ' + str(self.entries))
                 self.save_data()
 
         except KeyboardInterrupt:
@@ -24,7 +24,7 @@ class BeveragesTracker:
         id = None
         while id is None:
             try:
-                id = int(input('Please give me your Matrikelnummer: '))
+                id = int(input('Please provide identifier: '))
                 break
             except KeyboardInterrupt as abort:
                 raise abort
