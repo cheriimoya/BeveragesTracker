@@ -7,8 +7,9 @@ import person
 class BeveragesTracker:
 
     READER_BARCODE = 1
+    READER_NFC = 2
 
-    def __init__(self, barcode_reader=True):
+    def __init__(self, barcode_reader=True, nfc_reader=False):
         self.running = True
         self.entries = self.load_data()
         self.persons = self.load_persons()
@@ -18,11 +19,21 @@ class BeveragesTracker:
             from barcode_reader import BarcodeReader
             self.barcode_reader = BarcodeReader(self)
             self.readers.append(self.barcode_reader)
+        if nfc_reader:
+            from nfc_reader import NfcReader
+            self.nfc_reader = NfcReader(self)
+            self.readers.append(self.nfc_reader)
         for reader in self.readers:
             reader.start()
 
     def enqueue_read(self, data):
         (kind, id) = data
+        if kind is self.READER_NFC:
+            person = self.get_person_by_card_uid(id)
+            if person is None:
+                print('Person not registered yet!')
+                return
+            id = person.id
         self.read_queue.put(id)
 
     def start_loop(self):
@@ -42,6 +53,12 @@ class BeveragesTracker:
         if id not in self.entries:
             self.entries[id] = 0
         self.entries[id] += 1
+
+    def get_person_by_card_uid(self, id):
+        for p in self.persons:
+            if p.has_nfc_id(id):
+                return p
+        return None
 
     def save_data(self):
         with open('entries.json', 'w') as save_file:

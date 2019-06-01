@@ -2,7 +2,7 @@ from beverages_tracker import BeveragesTracker
 
 
 def main():
-    bev = BeveragesTracker(barcode_reader=True)
+    bev = BeveragesTracker(barcode_reader=True, nfc_reader=True)
     bev.start_loop()
 
 
