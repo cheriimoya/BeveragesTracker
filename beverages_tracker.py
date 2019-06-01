@@ -1,6 +1,8 @@
 import json
 from queue import Queue
 
+import person
+
 
 class BeveragesTracker:
 
@@ -9,6 +11,7 @@ class BeveragesTracker:
     def __init__(self, barcode_reader=True):
         self.running = True
         self.entries = self.load_data()
+        self.persons = self.load_persons()
         self.read_queue = Queue()
         self.readers = []
         if barcode_reader:
@@ -50,3 +53,19 @@ class BeveragesTracker:
                 return json.loads(entries.read())
         except:
             return json.loads('{}')
+
+    def load_persons(self):
+        try:
+            with open('persons.json') as persons_file:
+                js = json.loads(persons_file.readline())
+                persons = person.from_json(js)
+                return persons
+        except:
+            return json.loads('[]')
+
+    def save_persons(self):
+        try:
+            with open('persons.json', 'w') as persons_file:
+                persons_file.writelines(json.dumps(self.persons))
+        except:
+            print('Failed to write persons to file!')
