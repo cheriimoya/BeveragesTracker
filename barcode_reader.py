@@ -1,19 +1,11 @@
-from threading import Thread
+from reader import Reader
 
 
-class BarcodeReader(Thread):
-    def __init__(self, parent):
-        super().__init__()
-        self.running = True
-        self.parent = parent
+class BarcodeReader(Reader):
+    get_id(self):
+        id = int(input('Please provide identifier: '))
+        self.parent.enqueue_read((self.reader_id, id))
 
-    def run(self):
-        while self.running:
-            try:
-                id = int(input('Please provide identifier: '))
-            except:
-                continue
-            self.parent.enqueue_read((self.parent.READER_BARCODE, id))
 
     def shutdown(self):
         self.running = False
