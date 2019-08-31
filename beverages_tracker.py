@@ -34,6 +34,7 @@ class BeveragesTracker:
         if kind is self.READER_NFC:
             person = self.get_person_by_card_uid(id)
             if person is None:
+                # TODO: log this
                 print('Person not registered yet!')
                 return
             id = person.id
@@ -44,6 +45,7 @@ class BeveragesTracker:
             while self.running:
                 id = self.read_queue.get()
                 self.update_amount_for_id(str(id))
+                # TODO: log that
                 print('Updated: ' + str(self.entries))
                 self.save_data()
         except KeyboardInterrupt:
@@ -100,4 +102,5 @@ class BeveragesTracker:
             with open('persons.json', 'w') as persons_file:
                 persons_file.writelines(json.dumps(self.persons))
         except:
+            # TODO: also log this
             print('Failed to write persons to file!')
