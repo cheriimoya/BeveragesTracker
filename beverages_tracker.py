@@ -10,6 +10,9 @@ class BeveragesTracker:
     READER_NFC = 2
 
     def __init__(self, barcode_reader=True, nfc_reader=False):
+        '''The init function tries to load data from a file called entries.json
+        and persons.json in the project root.
+        If no readers are set, the program will exit without doing anything.'''
         self.running = True
         self.entries = self.load_data()
         self.persons = self.load_persons()
@@ -50,21 +53,28 @@ class BeveragesTracker:
             self.save_data()
 
     def update_amount_for_id(self, id):
+        '''Increases the count for a given id by one'''
         if id not in self.entries:
             self.entries[id] = 0
         self.entries[id] += 1
 
     def get_person_by_card_uid(self, id):
-        for p in self.persons:
-            if p.has_nfc_id(id):
-                return p
-        return None
+        '''Return person that a given id belongs to.
+        If the id is not registered yet, this function will
+        return None'''
+        for person in self.persons:
+            if person.has_nfc_id(id):
+                return person
 
     def save_data(self):
+        '''This function saves the volatile data as json into a file called
+        entries.json in the current directory.'''
         with open('entries.json', 'w') as save_file:
             save_file.write(json.dumps(self.entries))
 
     def load_data(self):
+        '''This function loads the entries.json file.
+        If it doesn't exist, it just returns an empty json array.'''
         try:
             with open('entries.json') as entries:
                 return json.loads(entries.read())
@@ -72,6 +82,9 @@ class BeveragesTracker:
             return json.loads('{}')
 
     def load_persons(self):
+        '''Loads and returns persons.json from the current directory.
+        If this file does not exist an empty array will be
+        returned.'''
         try:
             with open('persons.json') as persons_file:
                 js = json.loads(persons_file.readline())
@@ -81,6 +94,8 @@ class BeveragesTracker:
             return json.loads('[]')
 
     def save_persons(self):
+        '''Save all entries to persons.json in the current
+        directory.'''
         try:
             with open('persons.json', 'w') as persons_file:
                 persons_file.writelines(json.dumps(self.persons))
