@@ -11,10 +11,10 @@ class Reader(Thread):
     def run(self):
         while self.running:
             try:
-                self.get_id()
+                id = self.get_id()
             except:
                 continue
-            self.parent.enqueue_read((self.parent.READER_NFC, id))
+            self.parent.enqueue_read((self.reader_id, id))
 
     def get_id(self):
         # Implement me

@@ -20,7 +20,6 @@ class NfcReader(Reader):
         sleep(1)
         return id
 
-
     def shutdown(self):
         self.running = False
         GPIO.cleanup()

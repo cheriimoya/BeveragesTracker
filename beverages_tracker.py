@@ -3,12 +3,11 @@ from queue import Queue
 
 import person
 
+READER_BARCODE = 1
+READER_NFC = 2
+
 
 class BeveragesTracker:
-
-    READER_BARCODE = 1
-    READER_NFC = 2
-
     def __init__(self, barcode_reader=True, nfc_reader=False):
         '''The init function tries to load data from a file called entries.json
         and persons.json in the project root.
@@ -20,18 +19,18 @@ class BeveragesTracker:
         self.readers = []
         if barcode_reader:
             from barcode_reader import BarcodeReader
-            self.barcode_reader = BarcodeReader(self)
+            self.barcode_reader = BarcodeReader(self, READER_BARCODE)
             self.readers.append(self.barcode_reader)
         if nfc_reader:
             from nfc_reader import NfcReader
-            self.nfc_reader = NfcReader(self)
+            self.nfc_reader = NfcReader(self, READER_NFC)
             self.readers.append(self.nfc_reader)
         for reader in self.readers:
             reader.start()
 
     def enqueue_read(self, data):
         (kind, id) = data
-        if kind is self.READER_NFC:
+        if kind is READER_NFC:
             person = self.get_person_by_card_uid(id)
             if person is None:
                 # TODO: log this
