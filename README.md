@@ -25,11 +25,14 @@ For the RFID reader setup have a look at [this guide](https://tutorials-raspberr
 
 ---
 
-Ideas for TODOs:
+COULDDOs:
 ---
 - Add pretty statistics
 - Add webserver to get information
 - Add different multipliers for calculating prices and stuff
 - Make project more modular, so ids can also be obtained with NFC tags, ...
+- Add front end
+- create user from gui
+- inventory management within the app
 
 - Always: Fix bugs
