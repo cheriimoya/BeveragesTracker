@@ -1,14 +1,15 @@
 import json
-from queue import Queue
+from queue import Queue, Empty
 
 import person
 
 READER_BARCODE = 1
 READER_NFC = 2
+READER_TCP = 3
 
 
 class BeveragesTracker:
-    def __init__(self, barcode_reader=True, nfc_reader=False):
+    def __init__(self, barcode_reader=False, nfc_reader=False, tcp_reader=False):
         '''The init function tries to load data from a file called entries.json
         and persons.json in the project root.
         If no readers are set, the program will exit without doing anything.'''
@@ -25,6 +26,10 @@ class BeveragesTracker:
             from nfc_reader import NfcReader
             self.nfc_reader = NfcReader(self, READER_NFC)
             self.readers.append(self.nfc_reader)
+        if tcp_reader:
+            from tcp_reader import TCPReader
+            self.tcp_reader = TCPReader(self, READER_TCP)
+            self.readers.append(self.tcp_reader)
         for reader in self.readers:
             reader.start()
 
