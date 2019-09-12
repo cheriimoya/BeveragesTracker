@@ -60,6 +60,11 @@ class BeveragesTracker:
         finally:
             self.save_data()
 
+    def no_wait_for_and_return_id(self):
+        try:
+            return self.read_queue.get_nowait()
+        except Empty:
+            return None
 
     def update_beverages_for_id(self, id, beverages):
         # TODO: add user properly
