@@ -1,5 +1,7 @@
 import json
 from queue import Queue, Empty
+from time import time
+from pdb import set_trace
 
 import person
 
@@ -57,6 +59,29 @@ class BeveragesTracker:
                 reader.shutdown()
         finally:
             self.save_data()
+
+    def no_wait_for_and_return_id(self):
+        try:
+            return self.read_queue.get_nowait()
+        except Empty:
+            return None
+
+    def update_beverages_for_id(self, id, beverages):
+        # TODO: add user properly
+        if id not in self.entries or type(self.entries[id]) != dict:
+            self.entries[id] = {'owes_total': 0.0}
+        owes = 0.0
+
+        timestamp = int(time())
+        if timestamp not in self.entries[id]:
+            self.entries[id][timestamp] = {}
+        for beverage in beverages:
+            if beverage['name'] not in self.entries[id][timestamp]:
+                self.entries[id][timestamp][beverage['name']] = 0
+            self.entries[id][timestamp][beverage['name']] += 1
+            owes += float(beverage['price'])
+        self.entries[id]['owes_total'] += owes
+        self.save_data()
 
     def update_amount_for_id(self, id):
         '''Increases the count for a given id by one'''
