@@ -9,8 +9,8 @@ from beverages_tracker import BeveragesTracker
 def main():
     bev = BeveragesTracker(
             barcode_reader=False,
-            nfc_reader=False,
-            tcp_reader=True)
+            nfc_reader=True,
+            tcp_reader=False)
     root = Tk()
     app = Application(backend=bev, master=root)
     try:
@@ -25,6 +25,9 @@ def main():
         pass
     except TclError:
         pass
+    finally:
+        for reader in bev.readers:
+            reader.shutdown()
 
 
 if __name__ == '__main__':
