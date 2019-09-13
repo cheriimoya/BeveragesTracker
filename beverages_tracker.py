@@ -100,14 +100,14 @@ class BeveragesTracker:
     def save_data(self):
         '''This function saves the volatile data as json into a file called
         entries.json in the current directory.'''
-        with open('entries.json', 'w') as save_file:
+        with open('data/entries.json', 'w') as save_file:
             save_file.write(json.dumps(self.entries))
 
     def load_data(self):
         '''This function loads the entries.json file.
         If it doesn't exist, it just returns an empty json array.'''
         try:
-            with open('entries.json') as entries:
+            with open('data/entries.json') as entries:
                 return json.loads(entries.read())
         except:
             return json.loads('{}')
@@ -117,7 +117,7 @@ class BeveragesTracker:
         If this file does not exist an empty array will be
         returned.'''
         try:
-            with open('persons.json') as persons_file:
+            with open('data/persons.json') as persons_file:
                 js = json.loads(persons_file.readline())
                 persons = person.from_json(js)
                 return persons
@@ -128,7 +128,7 @@ class BeveragesTracker:
         '''Save all entries to persons.json in the current
         directory.'''
         try:
-            with open('persons.json', 'w') as persons_file:
+            with open('data/persons.json', 'w') as persons_file:
                 persons_file.writelines(json.dumps(self.persons))
         except:
             # TODO: also log this

@@ -61,7 +61,7 @@ class Application(Frame):
     # TODO: export to helper function
     def get_beverage_values(self):
         try:
-            with open('beverages.json') as bevs:
+            with open('data/beverages.json') as bevs:
                 return json.loads(bevs.read())
         except Exception as e:
             print(e)
