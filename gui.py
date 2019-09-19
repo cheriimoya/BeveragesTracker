@@ -3,7 +3,7 @@ from functools import partial
 from pdb import set_trace
 from queue import Queue
 
-from tkinter import Button, Frame, X, BOTH, Label, StringVar
+from tkinter import Button, Frame, X, BOTH, Label, StringVar, font
 # from beverages_tracker import BeveragesTracker
 
 
@@ -13,6 +13,7 @@ class Application(Frame):
         self.price = 0
         self.master = master
         self.active = False
+        self.fontType = font.Font(family='Helvetica', size=18)
         self.bev = backend
         self.initialize_ui()
 
@@ -29,25 +30,33 @@ class Application(Frame):
             btn = Button(
                     self.frame_list[0],
                     text=f"{item['name']}: {item['price']}",
+                    font=self.fontType,
+                    width=1,
                     command=fun)
             btn.pack(fill=X, side="top")
 
         self.price_var = StringVar()
+        self.price_var.set('0.00 €')
         self.price_label = Label(
                 self.frame_list[1],
                 textvariable=self.price_var,
+                font=self.fontType,
                 bg='grey')
         self.price_label.pack(fill=X, side='bottom')
 
         self.id_var = StringVar()
         self.id_var.set('--id--')
-        self.id_label = Label(self.frame_list[2], textvariable=self.id_var)
+        self.id_label = Label(
+                self.frame_list[2],
+                font=self.fontType,
+                textvariable=self.id_var)
         self.id_label.pack(side='top')
 
         buy = Button(
                 self.frame_list[2],
                 text="BUY",
                 fg="green",
+                font=self.fontType,
                 command=self.book_transaction)
         buy.pack(expand=True, side='top', fill=BOTH)
 
@@ -55,6 +64,7 @@ class Application(Frame):
                 self.frame_list[2],
                 text="QUIT",
                 fg="red",
+                font=self.fontType,
                 command=self.master.destroy)
         quit.pack(side="bottom")
 
@@ -111,7 +121,11 @@ class Entry(Frame):
         self.price_label.pack(side='left')
 
         fun = partial(controller.remove_from_temp_list, self)
-        self.delete_button = Button(self, text='X', command=fun)
+        self.delete_button = Button(
+                self,
+                text='X',
+                font=self.fontType,
+                command=fun)
         self.delete_button.pack(side='right')
 
         self.pack(side='top', fill=X)
