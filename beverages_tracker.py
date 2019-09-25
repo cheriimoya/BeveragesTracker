@@ -46,20 +46,6 @@ class BeveragesTracker:
             id = person.id
         self.read_queue.put(id)
 
-    def start_loop(self):
-        try:
-            while self.running:
-                id = self.read_queue.get()
-                self.update_amount_for_id(str(id))
-                # TODO: log that
-                print('Updated: ' + str(self.entries))
-                self.save_data()
-        except KeyboardInterrupt:
-            for reader in self.readers:
-                reader.shutdown()
-        finally:
-            self.save_data()
-
     def no_wait_for_and_return_id(self):
         try:
             return self.read_queue.get_nowait()
@@ -82,12 +68,6 @@ class BeveragesTracker:
             owes += float(beverage['price'])
         self.entries[id]['owes_total'] += owes
         self.save_data()
-
-    def update_amount_for_id(self, id):
-        '''Increases the count for a given id by one'''
-        if id not in self.entries:
-            self.entries[id] = 0
-        self.entries[id] += 1
 
     def get_person_by_card_uid(self, id):
         '''Return person that a given id belongs to.

@@ -7,10 +7,7 @@ from beverages_tracker import BeveragesTracker
 
 
 def main():
-    bev = BeveragesTracker(
-            barcode_reader=False,
-            nfc_reader=True,
-            tcp_reader=False)
+    bev = BeveragesTracker(tcp_reader=True)
     root = Tk()
     app = Application(backend=bev, master=root)
     try:
