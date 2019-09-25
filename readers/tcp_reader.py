@@ -1,6 +1,6 @@
 import socketserver
 
-from reader import Reader
+from readers.reader import Reader
 
 
 HOST, PORT = "localhost", 9999

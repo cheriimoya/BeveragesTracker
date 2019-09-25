@@ -21,15 +21,15 @@ class BeveragesTracker:
         self.read_queue = Queue()
         self.readers = []
         if barcode_reader:
-            from barcode_reader import BarcodeReader
+            from readers.barcode_reader import BarcodeReader
             self.barcode_reader = BarcodeReader(self, READER_BARCODE)
             self.readers.append(self.barcode_reader)
         if nfc_reader:
-            from nfc_reader import NfcReader
+            from readers.nfc_reader import NfcReader
             self.nfc_reader = NfcReader(self, READER_NFC)
             self.readers.append(self.nfc_reader)
         if tcp_reader:
-            from tcp_reader import TCPReader
+            from readers.tcp_reader import TCPReader
             self.tcp_reader = TCPReader(self, READER_TCP)
             self.readers.append(self.tcp_reader)
         for reader in self.readers:

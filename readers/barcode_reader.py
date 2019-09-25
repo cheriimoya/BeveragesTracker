@@ -1,4 +1,4 @@
-from reader import Reader
+from readers.reader import Reader
 
 
 class BarcodeReader(Reader):

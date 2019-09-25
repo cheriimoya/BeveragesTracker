@@ -3,7 +3,7 @@ from time import sleep
 import RPi.GPIO as GPIO
 from mfrc522 import SimpleMFRC522
 
-from reader import Reader
+from readers.reader import Reader
 
 
 class NfcReader(Reader):
