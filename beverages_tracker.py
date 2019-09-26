@@ -78,13 +78,15 @@ class BeveragesTracker:
         set_trace()
         raise IndexError
 
-    def get_person_by_card_uid(self, id):
+    def get_person_by_card_uid(self, card_id):
         '''Return person that a given id belongs to.
         If the id is not registered yet, this function will
         return None'''
-        for person in self.persons:
-            if person.has_nfc_id(id):
-                return person
+        for entry in self.load_persons():
+            if entry.has_nfc_id(card_id):
+                return entry
+        with open('unknown_card_id.txt', 'w') as uid_file:
+            uid_file.write(card_id)
 
     def save_data(self):
         '''This function saves the volatile data as json into a file called
