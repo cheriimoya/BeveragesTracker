@@ -1,9 +1,15 @@
 import numpy as np
 from matplotlib import pyplot as plt
+from pdb import set_trace
 
 
-def plotTotal(idList):
+def plotTotal(idList, persons):
     labels = [obj.name for obj in idList]
+
+    for persons_id in persons:
+        if str(persons_id['id']) in labels:
+            labels[labels.index(str(persons_id['id']))] = persons_id['name']
+
     owes = [obj.owes_total for obj in idList]
 
     # round complete list
@@ -12,7 +18,9 @@ def plotTotal(idList):
 
     x = np.arange(len(labels))  # the label locations
     width = 0.35  # the width of the bars
-    
+
+    plt.style.use('dark_background')
+
     # disable toolbar
     plt.rcParams['toolbar'] = 'None'
 
@@ -20,9 +28,10 @@ def plotTotal(idList):
     rects1 = ax.bar(x, owes, width)
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel('Beverages')
-    ax.set_xlabel('ID')
-    ax.set_title('Total bought beverages this semester')
+    ax.set_ylabel('in Euro')
+    ax.set_xlabel('Fachschaftsmitglieder')
+    ax.set_title('Schuldenberg der Fachschaftsmitglieder\n'
+                 'WO IST UNSER GELD ???')
     ax.set_xticks(x)
     ax.set_xticklabels(labels)
     ax.legend()

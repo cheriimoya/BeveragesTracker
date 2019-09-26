@@ -10,8 +10,10 @@ def main():
 
     while(1):
         try:
-            with urllib.request.urlopen("http://192.168.1.21:8000/entries.json") as url:
-                entries = json.loads(url.read().decode())
+            with urllib.request.urlopen("http://192.168.1.21:8000/entries.json") as json_entries:
+                entries = json.loads(json_entries.read().decode())
+            with urllib.request.urlopen("http://192.168.1.21:8000/persons.json") as json_persons:
+                persons = json.loads(json_persons.read().decode())
         except:
             entries = []
 
@@ -23,7 +25,7 @@ def main():
             if 'plt' in locals():
                 plt.close()
 
-            plt = pT.plotTotal(id_list)
+            plt = pT.plotTotal(id_list, persons)
 
             plt.show(block=False)
             plt.pause(3)
