@@ -10,8 +10,7 @@ READER = None
 class Handler_TCPServer(socketserver.BaseRequestHandler):
     def handle(self):
         self.data = self.request.recv(1024).strip()
-        READER.parent.enqueue_read(
-                (READER.reader_id, str(int(self.data))))
+        READER.parent.enqueue_read((READER.reader_id, int(self.data)))
 
 
 class TCPReader(Reader):
