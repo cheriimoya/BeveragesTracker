@@ -4,7 +4,6 @@ from pdb import set_trace
 from queue import Queue
 
 from tkinter import Button, Frame, X, BOTH, Label, StringVar, font
-# from beverages_tracker import BeveragesTracker
 
 
 class Application(Frame):

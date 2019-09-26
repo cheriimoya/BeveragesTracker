@@ -69,6 +69,15 @@ class BeveragesTracker:
         self.entries[id]['owes_total'] += owes
         self.save_data()
 
+    def get_person_name_by_id(self, person_id):
+        for p in self.load_persons():
+            if p.id == person_id:
+                return p.name
+        for reader in self.readers:
+            reader.shutdown()
+        set_trace()
+        raise IndexError
+
     def get_person_by_card_uid(self, id):
         '''Return person that a given id belongs to.
         If the id is not registered yet, this function will

@@ -13,11 +13,11 @@ def main():
     try:
         while True:
             root.update()
-            id = bev.no_wait_for_and_return_id()
-            if id is None:
+            person_id = bev.no_wait_for_and_return_id()
+            if person_id is None:
                 continue
             app.active = True
-            app.id_var.set(id)
+            app.id_var.set(person_id)
     except KeyboardInterrupt:
         pass
     except TclError:
