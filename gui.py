@@ -115,17 +115,23 @@ class Entry(Frame):
         self.price = item['price']
         self.item = item
 
-        self.name = Label(self, text=item['name'])
+        self.name = Label(
+                self,
+                font=controller.fontType,
+                text=item['name'])
         self.name.pack(side='left')
 
-        self.price_label = Label(self, text=item['price'])
+        self.price_label = Label(
+                self,
+                font=controller.fontType,
+                text=item['price'])
         self.price_label.pack(side='left')
 
         fun = partial(controller.remove_from_temp_list, self)
         self.delete_button = Button(
                 self,
                 text='X',
-                font=self.fontType,
+                font=controller.fontType,
                 command=fun)
         self.delete_button.pack(side='right')
 
