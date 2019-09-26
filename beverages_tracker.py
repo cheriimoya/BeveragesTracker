@@ -86,7 +86,7 @@ class BeveragesTracker:
             if entry.has_nfc_id(card_id):
                 return entry
         with open('unknown_card_id.txt', 'w') as uid_file:
-            uid_file.write(card_id)
+            uid_file.write(str(card_id))
 
     def save_data(self):
         '''This function saves the volatile data as json into a file called
