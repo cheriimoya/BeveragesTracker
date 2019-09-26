@@ -18,6 +18,7 @@ def main():
                 continue
             app.active = True
             app.id_var.set(person_id)
+            app.name_var.set(bev.get_person_name_by_id(person_id))
     except KeyboardInterrupt:
         pass
     except TclError:

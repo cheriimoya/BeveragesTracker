@@ -44,11 +44,13 @@ class Application(Frame):
         self.price_label.pack(fill=X, side='bottom')
 
         self.id_var = StringVar()
-        self.id_var.set('--id--')
+        self.name_var = StringVar()
+        self.id_var.set('0')
+        self.name_var.set('-name-')
         self.id_label = Label(
                 self.frame_list[2],
                 font=self.fontType,
-                textvariable=self.id_var)
+                textvariable=self.name_var)
         self.id_label.pack(side='top')
 
         buy = Button(
@@ -102,7 +104,7 @@ class Application(Frame):
             items.append(child.item)
             child.destroy()
         self.bev.update_beverages_for_id(self.id_var.get(), items)
-        self.id_var.set('--id--')
+        self.name_var.set('-name-')
         self.calculate_and_display_total()
         self.active = False
 
