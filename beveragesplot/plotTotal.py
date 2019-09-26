@@ -28,12 +28,12 @@ def plotTotal(idList, persons):
     rects1 = ax.bar(x, owes, width)
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel('in Euro')
-    ax.set_xlabel('Fachschaftsmitglieder')
+    ax.set_ylabel('in Euro', fontsize=20)
+    ax.set_xlabel('Fachschaftsmitglieder', fontsize=20)
     ax.set_title('Schuldenberg der Fachschaftsmitglieder\n'
-                 'WO IST UNSER GELD ???')
+                 'WO IST UNSER GELD ???', fontsize=20)
     ax.set_xticks(x)
-    ax.set_xticklabels(labels)
+    ax.set_xticklabels(labels, fontsize=20)
     ax.legend()
 
     def autolabel(rects):
@@ -44,7 +44,8 @@ def plotTotal(idList, persons):
                         xy=(rect.get_x() + rect.get_width() / 2, height),
                         xytext=(0, 3),  # 3 points vertical offset
                         textcoords="offset points",
-                        ha='center', va='bottom')
+                        ha='center', va='bottom', fontsize=20
+                        )
 
     autolabel(rects1)
 
