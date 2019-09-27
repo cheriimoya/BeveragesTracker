@@ -42,7 +42,7 @@ def plotTotal(idList, persons):
             height = rect.get_height()
             ax.annotate('{}'.format(height),
                         xy=(rect.get_x() + rect.get_width() / 2, height),
-                        xytext=(0, 3),  # 3 points vertical offset
+                        xytext=(0, -25),
                         textcoords="offset points",
                         ha='center', va='bottom', fontsize=20
                         )
