@@ -1,1 +1,9 @@
-[{"id": 123, "name": "johndoe", "nfc_cards": [123456654321]}]
+[
+    {
+        "id": 123,
+        "name": "johndoe",
+        "nfc_cards": [
+            123456654321
+        ]
+    }
+]
