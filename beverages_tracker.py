@@ -16,7 +16,7 @@ class BeveragesTracker:
         and persons.json in the project root.
         If no readers are set, the program will exit without doing anything.'''
         self.running = True
-        self.entries = self.load_data()
+        self.entries = self.load_entries()
         self.persons = self.load_persons()
         self.read_queue = Queue()
         self.readers = []
@@ -67,7 +67,7 @@ class BeveragesTracker:
             self.entries[id][timestamp][beverage['name']] += 1
             owes += float(beverage['price'])
         self.entries[id]['owes_total'] += owes
-        self.save_data()
+        self.save_entries()
 
     def get_person_name_by_id(self, person_id):
         for p in self.load_persons():
@@ -88,13 +88,13 @@ class BeveragesTracker:
         with open('unknown_card_id.txt', 'w') as uid_file:
             uid_file.write(str(card_id))
 
-    def save_data(self):
+    def save_entries(self):
         '''This function saves the volatile data as json into a file called
         entries.json in the current directory.'''
         with open('data/entries.json', 'w') as save_file:
             json.dump(self.entries, save_file, indent=4)
 
-    def load_data(self):
+    def load_entries(self):
         '''This function loads the entries.json file.
         If it doesn't exist, it just returns an empty json array.'''
         try:
