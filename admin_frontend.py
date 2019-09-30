@@ -2,8 +2,6 @@ import os
 from hashlib import sha512
 import json
 
-from pdb import set_trace
-
 from flask import Flask, render_template, request, session, redirect, url_for
 
 ADMIN_PASSWORD = b"\xd4\x01yHC\x88\x05\xdd3q\xc0'\x06\xbc\xc3hd\xa86\xc9 \xc9\x91\x00&*GP*\xc4\x18Y\x92<\x0c4?\x86A+\x0c\xdb^\xb9\x11[\xc6\x87\x08\xf6\xd2\x05_\xfd\x19\xd5\x91\xed\xaa\x1d0\x9b\xb0d"
@@ -60,7 +58,6 @@ def login():
         </form>
         '''
     if request.method == 'POST':
-        set_trace()
         pw_hash = sha512(request.form['password'].encode()).digest()
         if pw_hash == ADMIN_PASSWORD:
             session['username'] = 'admin'
