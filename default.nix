@@ -4,6 +4,7 @@ let
   python36-beverages-tracker = pkgs.python36.withPackages (p: with p; [
     requests
     tkinter
+    flask
   ]);
 in
 

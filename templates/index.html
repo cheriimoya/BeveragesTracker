@@ -1,0 +1,9 @@
+{% if errors %}{{ errors }}{% endif %}
+<form method="post">
+  <textarea style="width: 100%; height: 40%;" name="entries">{{ entries }}</textarea>
+  <br>
+  <textarea style="width: 100%; height: 40%;" name="persons">{{ persons }}</textarea>
+  <br>
+  <input type="submit">
+</form>
+Last card id: {{ last_card_id }}
