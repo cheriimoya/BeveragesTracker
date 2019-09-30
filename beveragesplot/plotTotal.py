@@ -13,7 +13,7 @@ def plotTotal(idList, persons):
     owes = [obj.owes_total for obj in idList]
 
     # round complete list
-    owes_tmp = [round(elem, 3) for elem in owes]
+    owes_tmp = [elem for elem in owes]
     owes = owes_tmp
 
     x = np.arange(len(labels))  # the label locations
