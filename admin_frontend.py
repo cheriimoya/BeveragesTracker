@@ -82,7 +82,7 @@ def update_backend(entries=None, persons=None):
 
 
 def run():
-    app.run(port=8000)
+    app.run(port=9000, host='0.0.0.0')
 
 
 if __name__ == '__main__':
