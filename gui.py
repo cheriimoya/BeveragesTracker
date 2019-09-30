@@ -77,13 +77,6 @@ class Application(Frame):
                 command=self.bev.reload_data)
         reload_button.pack(side="bottom")
 
-        quit = Button(
-                self.frame_list[2],
-                text="QUIT",
-                fg="red",
-                font=self.fontType,
-                command=self.master.destroy)
-        quit.pack(side="bottom")
 
     # TODO: export to helper function
     def get_beverage_values(self):
@@ -119,7 +112,11 @@ class Application(Frame):
         for child in self.frame_list[1].winfo_children()[1:]:
             items.append(child.item)
             child.destroy()
-        self.bev.update_beverages_for_id(self.id_var.get(), items)
+        if len(items) > 0:
+            self.bev.update_beverages_for_id(self.id_var.get(), items)
+        self.name_var.set('-name-')
+        self.calculate_and_display_total()
+        self.active = False
 
 
     def cancel_transaction(self):
