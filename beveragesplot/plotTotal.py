@@ -17,7 +17,7 @@ def plotTotal(idList, persons):
     owes = owes_tmp
 
     x = np.arange(len(labels))  # the label locations
-    width = 0.35  # the width of the bars
+    width = 0.35 # the width of the bars
 
     plt.style.use('dark_background')
 
@@ -25,14 +25,14 @@ def plotTotal(idList, persons):
     plt.rcParams['toolbar'] = 'None'
 
     fig, ax = plt.subplots()
-    rects1 = ax.bar(x, owes, width)
+    rects1 = ax.bar(x/2, owes, width)
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
     ax.set_ylabel('in Euro', fontsize=20)
     ax.set_xlabel('Fachschaftsmitglieder', fontsize=20)
     ax.set_title('Schuldenberg der Fachschaftsmitglieder\n'
                  'WO IST UNSER GELD ???', fontsize=20)
-    ax.set_xticks(x)
+    ax.set_xticks(x/2)
     ax.set_xticklabels(labels, fontsize=20)
     ax.legend()
 
