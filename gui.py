@@ -61,6 +61,14 @@ class Application(Frame):
                 command=self.book_transaction)
         buy.pack(expand=True, side='top', fill=BOTH)
 
+        reload_button = Button(
+                self.frame_list[2],
+                text="reload",
+                fg="red",
+                font=self.fontType,
+                command=self.bev.reload_data)
+        reload_button.pack(side="bottom")
+
         quit = Button(
                 self.frame_list[2],
                 text="QUIT",

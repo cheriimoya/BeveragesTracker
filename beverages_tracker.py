@@ -124,3 +124,7 @@ class BeveragesTracker:
         except:
             # TODO: also log this
             print('Failed to write persons to file!')
+
+    def reload_data(self):
+        self.entries = self.load_entries()
+        self.persons = self.load_persons()
