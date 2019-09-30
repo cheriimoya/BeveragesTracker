@@ -66,7 +66,7 @@ class BeveragesTracker:
                 self.entries[id][timestamp][beverage['name']] = 0
             self.entries[id][timestamp][beverage['name']] += 1
             owes += float(beverage['price'])
-        self.entries[id]['owes_total'] += owes
+        self.entries[id]['owes_total'] += round(owes, 2)
         self.save_entries()
 
     def get_person_name_by_id(self, person_id):
