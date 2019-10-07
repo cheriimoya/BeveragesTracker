@@ -51,6 +51,8 @@ def plot_liters(entries):
 
     fig.tight_layout()
 
+    fig.savefig('liters.png')
+
     return plt
 
 
@@ -81,5 +83,6 @@ def plotTotal(entries):
     autolabel(rects1, ax)
 
     fig.tight_layout()
+    fig.savefig('owes.png')
 
     return plt

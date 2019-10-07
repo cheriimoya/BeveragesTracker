@@ -30,7 +30,7 @@ def main():
             if 'plt' in locals():
                 plt.close()
 
-            plt = pT.plot_liters(id_list)
+            plt = pT.plotTotal(id_list)
 
             plt.show(block=False)
             plt.pause(3)
