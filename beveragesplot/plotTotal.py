@@ -3,12 +3,21 @@ from matplotlib import pyplot as plt
 from pdb import set_trace
 
 
-def plotTotal(idList, persons):
-    labels = [obj.name for obj in idList]
+def autolabel(rects, ax):
+    """Attach a text label above each bar in *rects*, displaying its height."""
+    for rect in rects:
+        height = rect.get_height()
+        ax.annotate('{}'.format(height),
+                    xy=(rect.get_x() + rect.get_width() / 2, height),
+                    xytext=(0, -25),
+                    textcoords="offset points",
+                    ha='center', va='bottom', fontsize=20
+                    )
 
 
-    owes = [obj.owes_total for obj in idList]
-
+def plotTotal(entries):
+    labels = [obj.name for obj in entries]
+    owes = [obj.owes_total for obj in entries]
 
     x = np.arange(len(labels))  # the label locations
     width = 0.35  # the width of the bars
@@ -30,18 +39,7 @@ def plotTotal(idList, persons):
     ax.set_xticklabels(labels, fontsize=20)
     ax.legend()
 
-    def autolabel(rects):
-        """Attach a text label above each bar in *rects*, displaying its height."""
-        for rect in rects:
-            height = rect.get_height()
-            ax.annotate('{}'.format(height),
-                        xy=(rect.get_x() + rect.get_width() / 2, height),
-                        xytext=(0, -25),
-                        textcoords="offset points",
-                        ha='center', va='bottom', fontsize=20
-                        )
-
-    autolabel(rects1)
+    autolabel(rects1, ax)
 
     fig.tight_layout()
 
