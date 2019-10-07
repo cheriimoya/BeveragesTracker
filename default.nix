@@ -5,6 +5,8 @@ let
     requests
     tkinter
     flask
+    numpy
+    matplotlib
   ]);
 in
 

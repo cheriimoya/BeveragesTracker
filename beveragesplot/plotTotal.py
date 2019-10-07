@@ -6,18 +6,12 @@ from pdb import set_trace
 def plotTotal(idList, persons):
     labels = [obj.name for obj in idList]
 
-    for persons_id in persons:
-        if str(persons_id['id']) in labels:
-            labels[labels.index(str(persons_id['id']))] = persons_id['name']
 
     owes = [obj.owes_total for obj in idList]
 
-    # round complete list
-    owes_tmp = [elem for elem in owes]
-    owes = owes_tmp
 
     x = np.arange(len(labels))  # the label locations
-    width = 0.35 # the width of the bars
+    width = 0.35  # the width of the bars
 
     plt.style.use('dark_background')
 
