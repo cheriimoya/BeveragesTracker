@@ -25,7 +25,7 @@ def plot_liters(entries):
         liter = 0
         for d in drink:
             liter += drink[d]
-        liters_total.append(liter)
+        liters_total.append(round(liter * 0.5, 2))
 
     x = np.arange(len(labels))  # the label locations
     width = 0.35  # the width of the bars
@@ -39,10 +39,10 @@ def plot_liters(entries):
     rects1 = ax.bar(x/2, liters_total, width)
 
     # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel('in Euro', fontsize=20)
+    ax.set_ylabel('in Litern', fontsize=20)
     ax.set_xlabel('Fachschaftsmitglieder', fontsize=20)
-    ax.set_title('Schuldenberg der Fachschaftsmitglieder\n'
-                 'WO IST UNSER GELD ???', fontsize=20)
+    ax.set_title('Literkonsum der Mitglieder\n'
+                 'wer sind die Suffköpfe?', fontsize=20)
     ax.set_xticks(x/2)
     ax.set_xticklabels(labels, fontsize=20)
     ax.legend()
