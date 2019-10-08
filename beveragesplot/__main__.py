@@ -28,6 +28,7 @@ def main():
 
         if owe_list != owe_list_old and entries:
             pT.plot_liters(id_list)
+            pT.plot_liters_detailed(id_list)
             pT.plotTotal(id_list)
             owe_list_old = owe_list
         else:
