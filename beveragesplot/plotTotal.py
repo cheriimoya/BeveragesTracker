@@ -33,10 +33,10 @@ def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
     plt.xticks(x, labels)
 
     my_dpi = 96
-    fig.tight_layout()
+    fig.tight_layout(pad=0)
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
-
     fig.savefig(filename, dpi=my_dpi, bbox_inches='tight')
+
 
 def plot_liters_detailed(entries):
     labels = [obj.name for obj in entries]
@@ -96,7 +96,12 @@ def plot_liters_detailed(entries):
     plt.xticks(x, labels)
     plt.legend(all_drinks)
 
+    axes = plt.gca()
+    ylim = axes.get_ylim()
+    axes.set_ylim([0, ylim[1]+1])
+
     my_dpi = 96
+    fig.tight_layout(pad=0)
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
     fig.savefig('detail.png', dpi=my_dpi, bbox_inches='tight')
 
