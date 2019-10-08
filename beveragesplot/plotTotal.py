@@ -3,11 +3,11 @@ from matplotlib import pyplot as plt
 from pdb import set_trace
 
 
-def autolabel(rects, ax):
+def autolabel(rects):
     """Attach a text label above each bar in *rects*, displaying its height."""
     for rect in rects:
         height = rect.get_height()
-        ax.annotate('{}'.format(height),
+        plt.annotate(str(height),
                     xy=(rect.get_x() + rect.get_width() / 2, height),
                     xytext=(0, -25),
                     textcoords="offset points",
@@ -21,25 +21,22 @@ def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
 
     plt.style.use('dark_background')
 
-    fig, ax = plt.subplots()
-    rects1 = ax.bar(x, data, width)
+    fig = plt.figure()
+    rects1 = plt.bar(x, data, width)
+    
+    autolabel(rects1)
 
-    # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel(ylabel)
-    ax.set_xlabel(xlabel)
-    ax.set_title(title)
-    ax.set_xticks(x)
-    ax.set_xticklabels(labels)
-    ax.legend()
-
-    autolabel(rects1, ax)
+    # Add some text for labels, title and custom x-pltis tick labels, etc.
+    plt.ylabel(ylabel)
+    plt.xlabel(xlabel)
+    plt.title(title)
+    plt.xticks(x, labels)
 
     my_dpi = 96
     fig.tight_layout()
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
 
-    fig.savefig(filename, dpi=my_dpi)
-
+    fig.savefig(filename, dpi=my_dpi, bbox_inches='tight')
 
 def plot_liters_detailed(entries):
     labels = [obj.name for obj in entries]
@@ -73,7 +70,7 @@ def plot_liters_detailed(entries):
 
     plt.style.use('dark_background')
 
-    fig, ax = plt.subplots()
+    fig = plt.figure()
 
     colors = ['r', 'g', 'b', 'c', 'y', 'm']
 
@@ -84,28 +81,24 @@ def plot_liters_detailed(entries):
         offset = np.zeros(len(data[0]))
         for j in range(i):
             offset += data[j]
-        ax.bar(
+        plt.bar(
                 x,
                 data[i],
                 width,
                 bottom=offset,
                 color=colors[i])
 
-    # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel('Anzahl')
-    ax.set_xlabel('Fachschaftsmitglieder')
-    ax.set_title('Getränkevielfalt\n'
+    # Add some text for labels, title and custom x-pltis tick labels, etc.
+    plt.ylabel('Anzahl')
+    plt.xlabel('Fachschaftsmitglieder')
+    plt.title('Getränkevielfalt\n'
                  'wer trinkt was?')
-    ax.set_xticks(x)
-    ax.set_xticklabels(labels)
-    ax.legend(all_drinks)
+    plt.xticks(x, labels)
+    plt.legend(all_drinks)
 
-    #autolabel(rects1, ax)
     my_dpi = 96
-    fig.tight_layout()
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
-
-    fig.savefig('detail.png', dpi=my_dpi)
+    fig.savefig('detail.png', dpi=my_dpi, bbox_inches='tight')
 
 
 def plot_liters(entries):
