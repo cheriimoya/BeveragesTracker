@@ -36,6 +36,7 @@ def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
     plt.xlabel(xlabel)
     plt.title(title)
     plt.xticks(x, labels)
+    plt.grid(axis='y')
 
     my_dpi = 96
     fig.tight_layout(pad=0)
@@ -77,8 +78,6 @@ def plot_liters_detailed(entries):
 
     fig = plt.figure()
 
-    colors = ['r', 'g', 'b', 'c', 'y', 'm']
-
     data = list(zip(*drinks_per_id_normalized))
     data = np.array(data)
 
@@ -90,8 +89,8 @@ def plot_liters_detailed(entries):
                 x,
                 data[i],
                 width,
-                bottom=offset,
-                color=colors[i])
+                bottom=offset)
+                
         autolabel(bar)
 
     # Add some text for labels, title and custom x-pltis tick labels, etc.
@@ -101,6 +100,7 @@ def plot_liters_detailed(entries):
                  'wer trinkt was?')
     plt.xticks(x, labels)
     plt.legend(all_drinks)
+    plt.grid(axis='y')
 
     axes = plt.gca()
     ylim = axes.get_ylim()
@@ -110,7 +110,7 @@ def plot_liters_detailed(entries):
     fig.tight_layout(pad=0)
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
     fig.savefig('detail.png', dpi=my_dpi, bbox_inches='tight')
-
+    print("dasda")
 
 def plot_liters(entries):
     labels = [obj.name for obj in entries]
