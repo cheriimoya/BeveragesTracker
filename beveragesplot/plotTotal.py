@@ -5,14 +5,19 @@ from pdb import set_trace
 
 def autolabel(rects):
     """Attach a text label above each bar in *rects*, displaying its height."""
-    for rect in rects:
-        height = rect.get_height()
-        plt.annotate(str(height),
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, -25),
-                    textcoords="offset points",
-                    ha='center', va='bottom', fontsize=20
-                    )
+    for bar in rects:
+        height = bar.get_height()
+        pos_y = bar.get_y()
+        if not height:
+            return
+        plt.annotate(
+                str(height),
+                xy=(bar.get_x() + bar.get_width() / 2, pos_y + height / 2),
+                ha='center',
+                xytext=(0, 0),
+                textcoords="offset points",
+                va='center',
+                color='black')
 
 
 def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
@@ -23,7 +28,7 @@ def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
 
     fig = plt.figure()
     rects1 = plt.bar(x, data, width)
-    
+
     autolabel(rects1)
 
     # Add some text for labels, title and custom x-pltis tick labels, etc.
@@ -81,12 +86,13 @@ def plot_liters_detailed(entries):
         offset = np.zeros(len(data[0]))
         for j in range(i):
             offset += data[j]
-        plt.bar(
+        bar = plt.bar(
                 x,
                 data[i],
                 width,
                 bottom=offset,
                 color=colors[i])
+        autolabel(bar)
 
     # Add some text for labels, title and custom x-pltis tick labels, etc.
     plt.ylabel('Anzahl')
