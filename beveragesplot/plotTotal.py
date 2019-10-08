@@ -121,7 +121,8 @@ def plot_liters(entries):
     for drink in drinks:
         liter = 0
         for d in drink:
-            liter += drink[d]
+            if not d == 'Kaffee':
+                liter += drink[d]
         liters_total.append(round(liter * 0.5, 2))
 
     plot_one_dimensional(
