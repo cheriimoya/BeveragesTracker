@@ -17,6 +17,10 @@ Admin frontend
 ---
 Have a look at [the admin frontend markdown file](documentation/admin_frontend.md).
 
+Statistics Display
+---
+Have a look at [the statistics display markdown file](documentation/statistics_display.md).
+
 COULDDOs:
 ---
 - Add pretty statistics

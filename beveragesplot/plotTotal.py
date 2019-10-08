@@ -15,6 +15,32 @@ def autolabel(rects, ax):
                     )
 
 
+def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
+    x = np.arange(len(labels))  # the label locations
+    width = 0.70  # the width of the bars
+
+    plt.style.use('dark_background')
+
+    fig, ax = plt.subplots()
+    rects1 = ax.bar(x, data, width)
+
+    # Add some text for labels, title and custom x-axis tick labels, etc.
+    ax.set_ylabel(ylabel)
+    ax.set_xlabel(xlabel)
+    ax.set_title(title)
+    ax.set_xticks(x)
+    ax.set_xticklabels(labels)
+    ax.legend()
+
+    autolabel(rects1, ax)
+
+    my_dpi = 96
+    fig.tight_layout()
+    fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
+
+    fig.savefig(filename, dpi=my_dpi)
+
+
 def plot_liters(entries):
     labels = [obj.name for obj in entries]
     drinks = [obj.drinks for obj in entries]
@@ -27,59 +53,23 @@ def plot_liters(entries):
             liter += drink[d]
         liters_total.append(round(liter * 0.5, 2))
 
-    x = np.arange(len(labels))  # the label locations
-    width = 0.35  # the width of the bars
-
-    plt.style.use('dark_background')
-
-    # disable toolbar
-    plt.rcParams['toolbar'] = 'None'
-
-    fig, ax = plt.subplots()
-    rects1 = ax.bar(x/2, liters_total, width)
-
-    # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel('in Litern', fontsize=20)
-    ax.set_xlabel('Fachschaftsmitglieder', fontsize=20)
-    ax.set_title('Literkonsum der Mitglieder\n'
-                 'wer sind die Suffköpfe?', fontsize=20)
-    ax.set_xticks(x/2)
-    ax.set_xticklabels(labels, fontsize=20)
-    ax.legend()
-
-    autolabel(rects1, ax)
-
-    fig.tight_layout()
-
-    return plt
+    plot_one_dimensional(
+            'Literkonsum der Mitglieder\nwer sind die Suffköpfe?',
+            'in Litern',
+            'Fachschaftsmitglieder',
+            labels,
+            liters_total,
+            'liters.png')
 
 
 def plotTotal(entries):
     labels = [obj.name for obj in entries]
     owes = [obj.owes_total for obj in entries]
 
-    x = np.arange(len(labels))  # the label locations
-    width = 0.35  # the width of the bars
-
-    plt.style.use('dark_background')
-
-    # disable toolbar
-    plt.rcParams['toolbar'] = 'None'
-
-    fig, ax = plt.subplots()
-    rects1 = ax.bar(x/2, owes, width)
-
-    # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel('in Euro', fontsize=20)
-    ax.set_xlabel('Fachschaftsmitglieder', fontsize=20)
-    ax.set_title('Schuldenberg der Fachschaftsmitglieder\n'
-                 'WO IST UNSER GELD ???', fontsize=20)
-    ax.set_xticks(x/2)
-    ax.set_xticklabels(labels, fontsize=20)
-    ax.legend()
-
-    autolabel(rects1, ax)
-
-    fig.tight_layout()
-
-    return plt
+    plot_one_dimensional(
+            'Schuldenberg der Fachschaftsmitglieder\nWO IST UNSER GELD ???',
+            'in Euro',
+            'Fachschaftsmitglieder',
+            labels,
+            owes,
+            'owes.png')

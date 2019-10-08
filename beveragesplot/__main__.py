@@ -27,14 +27,8 @@ def main():
         owe_list = [obj.owes_total for obj in id_list]
 
         if owe_list != owe_list_old and entries:
-            if 'plt' in locals():
-                plt.close()
-
-            plt = pT.plot_liters(id_list)
-
-            plt.show(block=False)
-            plt.pause(3)
-
+            pT.plot_liters(id_list)
+            pT.plotTotal(id_list)
             owe_list_old = owe_list
         else:
             sleep(5)
