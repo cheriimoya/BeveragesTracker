@@ -110,7 +110,7 @@ def plot_liters_detailed(entries):
     fig.tight_layout(pad=0)
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
     fig.savefig('detail.png', dpi=my_dpi, bbox_inches='tight')
-    print("dasda")
+
 
 def plot_liters(entries):
     labels = [obj.name for obj in entries]
