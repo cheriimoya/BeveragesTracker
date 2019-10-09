@@ -97,7 +97,7 @@ def plot_liters_detailed(entries):
     plt.ylabel('Anzahl')
     plt.xlabel('Fachschaftsmitglieder')
     plt.title('Getränkevielfalt\n'
-                 'wer trinkt was?')
+              'wer trinkt was?')
     plt.xticks(x, labels)
     plt.legend(all_drinks)
     plt.grid(axis='y')
@@ -110,7 +110,7 @@ def plot_liters_detailed(entries):
     fig.tight_layout(pad=0)
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
     fig.savefig('detail.png', dpi=my_dpi, bbox_inches='tight')
-    print("dasda")
+
 
 def plot_liters(entries):
     labels = [obj.name for obj in entries]
@@ -134,7 +134,7 @@ def plot_liters(entries):
             'liters.png')
 
 
-def plotTotal(entries):
+def plot_total_owe_list(entries):
     labels = [obj.name for obj in entries]
     owes = [obj.owes_total for obj in entries]
 
@@ -145,3 +145,33 @@ def plotTotal(entries):
             labels,
             owes,
             'owes.png')
+
+
+def plot_specific_drink(entries, drink):
+    drinks = [obj.drinks for obj in entries]
+    labels = [obj.name for obj in entries]
+    
+    # lists with owes (for drink and name)
+    drink_owe = []
+    label_owe = []
+    
+    # create list with number of bought drinks (specified in parameter) 
+    for item in drinks:
+        if drink in item:
+            drink_owe.append(item[drink])
+        else:
+            drink_owe.append(0)
+
+    # list of names who bought specified drink
+    for idx, name in enumerate(labels):
+        if drink_owe[idx]:
+            label_owe.append(name)
+        
+    plot_one_dimensional(
+            'Konsum von ' + drink,
+            'Anzahl an Getränken',
+            'Fachschaftsmitglieder',
+            label_owe,
+            [x for x in drink_owe if x is not 0],
+            drink + '.png')
+
