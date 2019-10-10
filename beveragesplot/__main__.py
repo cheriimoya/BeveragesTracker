@@ -5,8 +5,7 @@ import plotTotal as pT
 import entries as et
 import urllib.request
 
-#WEBSERVER_PATH = 'http://192.168.1.21:8000/'
-WEBSERVER_PATH='http://www2.hs-esslingen.de/~mahait13/'
+WEBSERVER_PATH = 'http://192.168.1.21:8000/'
 
 def main():
     owe_list_old = []
@@ -39,6 +38,9 @@ def main():
             # plot graph for total owes 
             pT.plot_total_owe_list(id_list)
             
+            # plot pie graph 
+            pT.plot_pie(id_list)
+
             # set new list to old list
             owe_list_old = owe_list
         else:

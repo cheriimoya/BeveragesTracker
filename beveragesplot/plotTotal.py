@@ -1,7 +1,7 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from pdb import set_trace
-
+import random
 
 def autolabel(rects):
     """Attach a text label above each bar in *rects*, displaying its height."""
@@ -174,4 +174,59 @@ def plot_specific_drink(entries, drink):
             label_owe,
             [x for x in drink_owe if x is not 0],
             drink + '.png')
+
+
+def plot_pie(entries):
+    # Data to plot
+    drinks = [obj.drinks for obj in entries]
+
+    drinks_per_id = []
+    list_of_drinks = []
+    number_drinks = []
+    
+    for drink in drinks:
+        drink_types = {}
+        for d in drink:
+            if d not in list_of_drinks:
+                list_of_drinks.append(d)
+            if d not in drink_types:
+                drink_types[d] = 0
+            drink_types[d] += drink[d]
+        drinks_per_id.append(drink_types)
+
+    for idx, drink in enumerate(list_of_drinks):
+        for x in drinks_per_id: 
+            if drink in x:
+                try:
+                    tmp = number_drinks[idx]
+                except:
+                    tmp = 0 
+
+                if not tmp:
+                    number_drinks.append(0)
+                number_drinks[idx] += x[drink]
+                
+    # calculate percentage of each drink number and round it 
+    number_drinks = [round(((x * 100) / sum(number_drinks)), 2) for x in number_drinks] 
+    
+    explode = []
+
+    for idx, x in enumerate(number_drinks):
+        explode.append(random.randrange(0,9,1)/10)
+    
+    #explode = [0.1] * len(number_drinks)
+    #explode[0] = 0.1
+
+    plt.style.use('dark_background')
+    fig = plt.figure()
+    
+    plt.pie(number_drinks, explode=explode, labels=list_of_drinks, autopct='%1.1f%%',
+            shadow=False, startangle=140)
+    
+    plt.axis('equal')
+
+    my_dpi = 96
+    fig.tight_layout(pad=0)
+    fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
+    fig.savefig('pie.png', dpi=my_dpi, bbox_inches='tight')
 
