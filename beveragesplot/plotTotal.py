@@ -175,7 +175,6 @@ def plot_specific_drink(entries, drink):
             [x for x in drink_owe if x is not 0],
             drink + '.png')
 
-<<<<<<< HEAD
 
 def plot_pie(entries):
     # Data to plot
@@ -231,5 +230,3 @@ def plot_pie(entries):
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
     fig.savefig('pie.png', dpi=my_dpi, bbox_inches='tight')
 
-=======
->>>>>>> refs/remotes/origin/beveragesplot-detailed-view
