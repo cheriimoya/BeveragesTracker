@@ -19,7 +19,7 @@ def from_json(entries, persons):
                 name = persons_id['name']
 
         for timestamp in value:
-            if timestamp == "owes_total":
+            if timestamp == "owes_total" or timestamp.startswith('payment_'):
                 continue
             for drink in value[timestamp]:
                 if drink not in drinks:
