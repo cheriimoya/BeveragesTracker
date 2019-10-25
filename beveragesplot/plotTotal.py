@@ -1,18 +1,23 @@
 import numpy as np
 from matplotlib import pyplot as plt
 from pdb import set_trace
+import random
 
-
-def autolabel(rects, ax):
+def autolabel(rects):
     """Attach a text label above each bar in *rects*, displaying its height."""
-    for rect in rects:
-        height = rect.get_height()
-        ax.annotate('{}'.format(height),
-                    xy=(rect.get_x() + rect.get_width() / 2, height),
-                    xytext=(0, -25),
-                    textcoords="offset points",
-                    ha='center', va='bottom', fontsize=20
-                    )
+    for bar in rects:
+        height = bar.get_height()
+        pos_y = bar.get_y()
+        if not height:
+            return
+        plt.annotate(
+                str(height),
+                xy=(bar.get_x() + bar.get_width() / 2, pos_y + height / 2),
+                ha='center',
+                xytext=(0, 0),
+                textcoords="offset points",
+                va='center',
+                color='black')
 
 
 def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
@@ -21,24 +26,90 @@ def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
 
     plt.style.use('dark_background')
 
-    fig, ax = plt.subplots()
-    rects1 = ax.bar(x, data, width)
+    fig = plt.figure()
+    rects1 = plt.bar(x, data, width)
 
-    # Add some text for labels, title and custom x-axis tick labels, etc.
-    ax.set_ylabel(ylabel)
-    ax.set_xlabel(xlabel)
-    ax.set_title(title)
-    ax.set_xticks(x)
-    ax.set_xticklabels(labels)
-    ax.legend()
+    autolabel(rects1)
 
-    autolabel(rects1, ax)
+    # Add some text for labels, title and custom x-pltis tick labels, etc.
+    plt.ylabel(ylabel)
+    plt.xlabel(xlabel)
+    plt.title(title)
+    plt.xticks(x, labels)
+    plt.grid(axis='y')
 
     my_dpi = 96
-    fig.tight_layout()
+    fig.tight_layout(pad=0)
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
+    fig.savefig(filename, dpi=my_dpi, bbox_inches='tight')
 
-    fig.savefig(filename, dpi=my_dpi)
+
+def plot_liters_detailed(entries):
+    labels = [obj.name for obj in entries]
+    drinks = [obj.drinks for obj in entries]
+
+    drinks_per_id = []
+    all_drinks = []
+
+    for drink in drinks:
+        drink_types = {}
+        for d in drink:
+            if d not in all_drinks:
+                all_drinks.append(d)
+            if d not in drink_types:
+                drink_types[d] = 0
+            drink_types[d] += drink[d]
+        drinks_per_id.append(drink_types)
+
+    drinks_per_id_normalized = []
+    for index, drinks in enumerate(drinks_per_id):
+        this_persons_drinks = []
+        for d in all_drinks:
+            if d in drinks_per_id[index]:
+                this_persons_drinks.append(drinks_per_id[index][d])
+            else:
+                this_persons_drinks.append(0)
+        drinks_per_id_normalized.append(this_persons_drinks)
+
+    x = np.arange(len(labels))  # the label locations
+    width = 0.70  # the width of the bars
+
+    plt.style.use('dark_background')
+
+    fig = plt.figure()
+
+    data = list(zip(*drinks_per_id_normalized))
+    data = np.array(data)
+
+    for i in range(len(all_drinks)):
+        offset = np.zeros(len(data[0]))
+        for j in range(i):
+            offset += data[j]
+        bar = plt.bar(
+                x,
+                data[i],
+                width,
+                bottom=offset)
+                
+        autolabel(bar)
+
+    # Add some text for labels, title and custom x-pltis tick labels, etc.
+    plt.ylabel('Anzahl')
+    plt.xlabel('Fachschaftsmitglieder')
+    plt.title('Getränkevielfalt\n'
+              'wer trinkt was?')
+    plt.xticks(x, labels)
+    plt.legend(all_drinks)
+    plt.grid(axis='y')
+
+    axes = plt.gca()
+    ylim = axes.get_ylim()
+    axes.set_ylim([0, ylim[1]+1])
+
+    my_dpi = 96
+    fig.tight_layout(pad=0)
+    fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
+    fig.savefig('detail.png', dpi=my_dpi, bbox_inches='tight')
 
 
 def plot_liters(entries):
@@ -50,7 +121,8 @@ def plot_liters(entries):
     for drink in drinks:
         liter = 0
         for d in drink:
-            liter += drink[d]
+            if not d == 'Kaffee':
+                liter += drink[d]
         liters_total.append(round(liter * 0.5, 2))
 
     plot_one_dimensional(
@@ -62,7 +134,7 @@ def plot_liters(entries):
             'liters.png')
 
 
-def plotTotal(entries):
+def plot_total_owe_list(entries):
     labels = [obj.name for obj in entries]
     owes = [obj.owes_total for obj in entries]
 
@@ -73,3 +145,88 @@ def plotTotal(entries):
             labels,
             owes,
             'owes.png')
+
+
+def plot_specific_drink(entries, drink):
+    drinks = [obj.drinks for obj in entries]
+    labels = [obj.name for obj in entries]
+    
+    # lists with owes (for drink and name)
+    drink_owe = []
+    label_owe = []
+    
+    # create list with number of bought drinks (specified in parameter) 
+    for item in drinks:
+        if drink in item:
+            drink_owe.append(item[drink])
+        else:
+            drink_owe.append(0)
+
+    # list of names who bought specified drink
+    for idx, name in enumerate(labels):
+        if drink_owe[idx]:
+            label_owe.append(name)
+        
+    plot_one_dimensional(
+            'Konsum von ' + drink,
+            'Anzahl an Getränken',
+            'Fachschaftsmitglieder',
+            label_owe,
+            [x for x in drink_owe if x is not 0],
+            drink + '.png')
+
+
+def plot_pie(entries):
+    # Data to plot
+    drinks = [obj.drinks for obj in entries]
+
+    drinks_per_id = []
+    list_of_drinks = []
+    number_drinks = []
+    
+    for drink in drinks:
+        drink_types = {}
+        for d in drink:
+            if d not in list_of_drinks:
+                list_of_drinks.append(d)
+            if d not in drink_types:
+                drink_types[d] = 0
+            drink_types[d] += drink[d]
+        drinks_per_id.append(drink_types)
+
+    for idx, drink in enumerate(list_of_drinks):
+        for x in drinks_per_id: 
+            if drink in x:
+                try:
+                    tmp = number_drinks[idx]
+                except:
+                    tmp = 0 
+
+                if not tmp:
+                    number_drinks.append(0)
+                number_drinks[idx] += x[drink]
+                
+    # calculate percentage of each drink number and round it 
+    number_drinks = [round(((x * 100) / sum(number_drinks)), 2) for x in number_drinks] 
+    
+    explode = []
+
+    for idx, x in enumerate(number_drinks):
+        explode.append(random.randrange(0,9,1)/10)
+    
+    #explode = [0.1] * len(number_drinks)
+    #explode[0] = 0.1
+
+    plt.style.use('dark_background')
+    fig = plt.figure()
+    
+    plt.pie(number_drinks, explode=explode, labels=list_of_drinks, autopct='%1.1f%%',
+            shadow=False, startangle=140)
+    
+    plt.axis('equal')
+
+    my_dpi = 96
+    fig.tight_layout(pad=0)
+    fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
+    fig.savefig('pie.png', dpi=my_dpi, bbox_inches='tight')
+

@@ -231,7 +231,7 @@ text.color          : white
 #axes.facecolor      : white   ## axes background color
 #axes.edgecolor      : black   ## axes edge color
 #axes.linewidth      : 0.8     ## edge linewidth
-axes.grid           : True   ## display grid or not
+#axes.grid           : True   ## display grid or not
 #axes.grid.axis      : both    ## which axis the grid should apply to
 #axes.grid.which     : major   ## gridlines at major, minor or both ticks
 #axes.titlesize      : large   ## fontsize of the axes title
