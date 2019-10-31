@@ -1,6 +1,7 @@
 import os
 from hashlib import sha512
 import json
+from time import time
 
 from flask import Flask, render_template, request, session, redirect, url_for
 
@@ -66,6 +67,28 @@ def login():
     return html
 
 
+@app.route('/pay', methods=['GET', 'POST'])
+def pay():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        person_id = request.form.get('id')
+        amount = float(request.form.get('amount'))
+        timestamp = request.form.get('timestamp')
+
+        pay(person_id, amount, timestamp)
+        return "payed!"
+
+    with open('data/persons.json') as persons_file:
+        persons = json.load(persons_file)
+
+    return render_template(
+        'pay.html',
+        persons=persons,
+        timestamp=int(time()))
+
+
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('page_not_found.html'), 404
@@ -79,6 +102,15 @@ def update_backend(entries=None, persons=None):
         json.dump(entries, entries_file, indent=4)
     with open('data/persons.json', 'w') as persons_file:
         json.dump(persons, persons_file, indent=4)
+
+
+def pay(person_id, amount, timestamp):
+    with open('data/entries.json') as entries_file:
+        entries = json.load(entries_file)
+    entries[person_id][f'payment_{timestamp}'] = amount
+    entries[person_id]['owes_total'] -= amount
+    with open('data/entries.json', 'w') as entries_file:
+        json.dump(entries, entries_file, indent=4)
 
 
 def run():
