@@ -108,7 +108,8 @@ def pay(person_id, amount, timestamp):
     with open('data/entries.json') as entries_file:
         entries = json.load(entries_file)
     entries[person_id][f'payment_{timestamp}'] = amount
-    entries[person_id]['owes_total'] -= amount
+    entries[person_id]['owes_total'] = round(
+        entries[person_id]['owes_total'] - amount)
     with open('data/entries.json', 'w') as entries_file:
         json.dump(entries, entries_file, indent=4)
 
