@@ -11,7 +11,9 @@ WEBSERVER_PATH = 'http://192.168.1.21:8000/'
 def main():
     owe_list_old = []
 
-    while(True):
+    running = True
+
+    while(running):
         try:
             with urllib.request.urlopen(
                     WEBSERVER_PATH + "entries.json") as json_entries:
@@ -22,7 +24,7 @@ def main():
         except:
             entries = []
             persons = []
-        
+
         id_list = et.from_json(entries, persons)
         owe_list = [obj.owes_total for obj in id_list]
 
@@ -32,14 +34,13 @@ def main():
             pT.plot_specific_drink(id_list, 'Oetti Export')
             pT.plot_specific_drink(id_list, 'Kaffee')
 
-            # plot graph for liters 
-            pT.plot_liters(id_list)
+            # plot graph for liters
             pT.plot_liters_detailed(id_list)
 
-            # plot graph for total owes 
+            # plot graph for total owes
             pT.plot_total_owe_list(id_list)
-            
-            # plot pie graph 
+
+            # plot pie graph
             pT.plot_pie(id_list)
 
             # set new list to old list
