@@ -4,13 +4,15 @@ from pdb import set_trace
 import random
 
 
-def autolabel(rects):
+def autolabel(rects, result_as_int=False):
     """Attach a text label above each bar in *rects*, displaying its height."""
     for bar in rects:
         height = bar.get_height()
         pos_y = bar.get_y()
         if not height:
             continue
+        if result_as_int:
+            height = int(height)
         plt.annotate(
                 str(height),
                 xy=(bar.get_x() + bar.get_width() / 2, pos_y + height / 2),
@@ -103,7 +105,7 @@ def plot_liters_detailed(entries):
                 width,
                 bottom=offset)
 
-        autolabel(bar)
+        autolabel(bar, True)
 
     # Add some text for labels, title and custom x-pltis tick labels, etc.
     plt.ylabel('Anzahl')
