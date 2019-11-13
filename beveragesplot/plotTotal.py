@@ -3,6 +3,7 @@ from matplotlib import pyplot as plt
 from pdb import set_trace
 import random
 
+
 def autolabel(rects):
     """Attach a text label above each bar in *rects*, displaying its height."""
     for bar in rects:
@@ -46,7 +47,7 @@ def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
     plt.ylabel(ylabel)
     plt.xlabel(xlabel)
     plt.title(title)
-    plt.xticks(x, labels)
+    plt.xticks(x, labels, rotation=45)
     plt.grid(axis='y')
 
     my_dpi = 96
@@ -109,7 +110,7 @@ def plot_liters_detailed(entries):
     plt.xlabel('Fachschaftsmitglieder')
     plt.title('Getränkevielfalt\n'
               'wer trinkt was?')
-    plt.xticks(x, labels)
+    plt.xticks(x, labels, rotation=45)
     plt.legend(all_drinks)
     plt.grid(axis='y')
 
