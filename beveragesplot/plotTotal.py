@@ -21,6 +21,17 @@ def autolabel(rects):
 
 
 def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
+    labels_temp = []
+    data_temp = []
+
+    for index, entry in enumerate(data):
+        if entry:
+            labels_temp.append(labels[index])
+            data_temp.append(entry)
+
+    labels = labels_temp
+    data = data_temp
+
     x = np.arange(len(labels))  # the label locations
     width = 0.70  # the width of the bars
 
