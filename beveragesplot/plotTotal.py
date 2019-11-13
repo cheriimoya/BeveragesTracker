@@ -234,7 +234,7 @@ def plot_pie(entries):
     plt.style.use('dark_background')
     fig = plt.figure()
 
-    plt.pie(number_drinks, explode=explode, labels=list_of_drinks, autopct='%1.1f%%',
+    plt.pie(number_drinks, textprops={'color': 'red'}, explode=explode, labels=list_of_drinks, autopct='%1.1f%%',
             shadow=False, startangle=140)
 
     plt.axis('equal')
