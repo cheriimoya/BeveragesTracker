@@ -3,13 +3,16 @@ from matplotlib import pyplot as plt
 from pdb import set_trace
 import random
 
-def autolabel(rects):
+
+def autolabel(rects, result_as_int=False):
     """Attach a text label above each bar in *rects*, displaying its height."""
     for bar in rects:
         height = bar.get_height()
         pos_y = bar.get_y()
         if not height:
-            return
+            continue
+        if result_as_int:
+            height = int(height)
         plt.annotate(
                 str(height),
                 xy=(bar.get_x() + bar.get_width() / 2, pos_y + height / 2),
@@ -21,6 +24,17 @@ def autolabel(rects):
 
 
 def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
+    labels_temp = []
+    data_temp = []
+
+    for index, entry in enumerate(data):
+        if entry:
+            labels_temp.append(labels[index])
+            data_temp.append(entry)
+
+    labels = labels_temp
+    data = data_temp
+
     x = np.arange(len(labels))  # the label locations
     width = 0.70  # the width of the bars
 
@@ -35,7 +49,7 @@ def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
     plt.ylabel(ylabel)
     plt.xlabel(xlabel)
     plt.title(title)
-    plt.xticks(x, labels)
+    plt.xticks(x, labels, rotation=45)
     plt.grid(axis='y')
 
     my_dpi = 96
@@ -90,15 +104,15 @@ def plot_liters_detailed(entries):
                 data[i],
                 width,
                 bottom=offset)
-                
-        autolabel(bar)
+
+        autolabel(bar, True)
 
     # Add some text for labels, title and custom x-pltis tick labels, etc.
     plt.ylabel('Anzahl')
     plt.xlabel('Fachschaftsmitglieder')
     plt.title('Getränkevielfalt\n'
               'wer trinkt was?')
-    plt.xticks(x, labels)
+    plt.xticks(x, labels, rotation=45)
     plt.legend(all_drinks)
     plt.grid(axis='y')
 
@@ -150,12 +164,12 @@ def plot_total_owe_list(entries):
 def plot_specific_drink(entries, drink):
     drinks = [obj.drinks for obj in entries]
     labels = [obj.name for obj in entries]
-    
+
     # lists with owes (for drink and name)
     drink_owe = []
     label_owe = []
-    
-    # create list with number of bought drinks (specified in parameter) 
+
+    # create list with number of bought drinks (specified in parameter)
     for item in drinks:
         if drink in item:
             drink_owe.append(item[drink])
@@ -166,7 +180,7 @@ def plot_specific_drink(entries, drink):
     for idx, name in enumerate(labels):
         if drink_owe[idx]:
             label_owe.append(name)
-        
+
     plot_one_dimensional(
             'Konsum von ' + drink,
             'Anzahl an Getränken',
@@ -183,7 +197,7 @@ def plot_pie(entries):
     drinks_per_id = []
     list_of_drinks = []
     number_drinks = []
-    
+
     for drink in drinks:
         drink_types = {}
         for d in drink:
@@ -195,34 +209,34 @@ def plot_pie(entries):
         drinks_per_id.append(drink_types)
 
     for idx, drink in enumerate(list_of_drinks):
-        for x in drinks_per_id: 
+        for x in drinks_per_id:
             if drink in x:
                 try:
                     tmp = number_drinks[idx]
                 except:
-                    tmp = 0 
+                    tmp = 0
 
                 if not tmp:
                     number_drinks.append(0)
                 number_drinks[idx] += x[drink]
-                
-    # calculate percentage of each drink number and round it 
-    number_drinks = [round(((x * 100) / sum(number_drinks)), 2) for x in number_drinks] 
-    
+
+    # calculate percentage of each drink number and round it
+    number_drinks = [round(((x * 100) / sum(number_drinks)), 2) for x in number_drinks]
+
     explode = []
 
     for idx, x in enumerate(number_drinks):
         explode.append(random.randrange(0,9,1)/10)
-    
+
     #explode = [0.1] * len(number_drinks)
     #explode[0] = 0.1
 
     plt.style.use('dark_background')
     fig = plt.figure()
-    
-    plt.pie(number_drinks, explode=explode, labels=list_of_drinks, autopct='%1.1f%%',
+
+    plt.pie(number_drinks, textprops={'color': 'red'}, explode=explode, labels=list_of_drinks, autopct='%1.1f%%',
             shadow=False, startangle=140)
-    
+
     plt.axis('equal')
 
     my_dpi = 96
