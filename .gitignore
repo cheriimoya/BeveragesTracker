@@ -3,4 +3,4 @@ unknown_card_id.txt
 __pycache__/
 *.pyc
 **/.idea/
-*.png
+beveragesplot/*.png
