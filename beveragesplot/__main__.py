@@ -22,7 +22,7 @@ def main():
                     WEBSERVER_PATH + "persons.json") as json_persons:
                 persons = json.loads(json_persons.read().decode())
         except:
-            entries = []
+            entries = {}
             persons = []
 
         id_list = et.from_json(entries, persons)
@@ -30,11 +30,20 @@ def main():
 
         # check after sleep if list is new
         if owe_list != owe_list_old and entries:
+            # plot facts
+            pT.plot_liter_sum(id_list)
+            pT.plot_payed_sum(id_list)
+            pT.plot_debt_sum(id_list)
+            pT.plot_bottles_sum(id_list)
+            pT.plot_bottles_sum(id_list, 'Spezi')
+            pT.plot_bottles_sum(id_list, 'Oettinger Limo')
+
             # plot graph for specific drinks
             pT.plot_specific_drink(id_list, 'Oetti Export')
             pT.plot_specific_drink(id_list, 'Kaffee')
 
             # plot graph for liters
+            pT.plot_liters(id_list)
             pT.plot_liters_detailed(id_list)
 
             # plot graph for total owes
