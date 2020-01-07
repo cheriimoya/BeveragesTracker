@@ -23,6 +23,31 @@ def autolabel(rects, result_as_int=False):
                 color='black')
 
 
+def plot_single_number(title, data, filename):
+    plt.style.use('dark_background')
+
+    fig = plt.figure()
+
+    plt.annotate(
+            data,
+            xy=(0.5, 0.5),
+            ha='center',
+            va='center',
+            xytext=(0, 0),
+            size=190,
+            textcoords="offset pixels",
+            color='white')
+
+    # Add some text for labels, title and custom x-pltis tick labels, etc.
+    plt.title(title, size=60)
+    plt.axis('off')
+
+    my_dpi = 96
+    fig.tight_layout(pad=0)
+    fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
+    fig.savefig(filename)
+
+
 def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
     labels_temp = []
     data_temp = []
@@ -126,6 +151,73 @@ def plot_liters_detailed(entries):
     fig.savefig('detail.png', dpi=my_dpi, bbox_inches='tight')
 
 
+def plot_debt_sum(entries):
+    labels = [obj.name for obj in entries]
+    owes = [obj.owes_total for obj in entries]
+
+    plot_single_number(
+            'Schulden gesamt',
+            f'{str(round(sum(owes), 2))}€',
+            'owelist_total.png')
+
+
+def plot_payed_sum(entries):
+    payments = [obj.payments for obj in entries]
+
+    total_money = 0
+
+    for payment in payments:
+        for pay in payment:
+            total_money += payment[pay]
+
+    plot_single_number(
+            'Bereits gezahlt',
+            f'{str(round(total_money, 2))}€',
+            'payed_total.png')
+
+
+def plot_bottles_sum(entries, type=None):
+    labels = [obj.name for obj in entries]
+    drinks = [obj.drinks for obj in entries]
+
+    bottles_total = 0
+
+    for drink in drinks:
+        for d in drink:
+            if d == 'Kaffee':
+                continue
+            elif type:
+                if d != type:
+                    continue
+            bottles_total += drink[d]
+
+    plot_single_number(
+            f'verkaufte Flaschen\n{type if type else ""}',
+            f'{str(bottles_total)}',
+            f'bottles{"_"+type if type else ""}_total.png')
+
+
+def plot_liter_sum(entries):
+    labels = [obj.name for obj in entries]
+    drinks = [obj.drinks for obj in entries]
+
+    liters_total = []
+
+    for drink in drinks:
+        liter = 0
+        for d in drink:
+            if d == 'Kaffee':
+                liter += drink[d] * 0.3
+            else:
+                liter += drink[d] * 0.5
+        liters_total.append(round(liter, 2))
+
+    plot_single_number(
+            'Literkonsum gesamt',
+            f'{str(round(sum(liters_total), 2))} L',
+            'liters_total.png')
+
+
 def plot_liters(entries):
     labels = [obj.name for obj in entries]
     drinks = [obj.drinks for obj in entries]
@@ -135,9 +227,11 @@ def plot_liters(entries):
     for drink in drinks:
         liter = 0
         for d in drink:
-            if not d == 'Kaffee':
-                liter += drink[d]
-        liters_total.append(round(liter * 0.5, 2))
+            if d == 'Kaffee':
+                liter += drink[d] * 0.3
+            else:
+                liter += drink[d] * 0.5
+        liters_total.append(round(liter, 2))
 
     plot_one_dimensional(
             'Literkonsum der Mitglieder\nwer sind die Suffköpfe?',
