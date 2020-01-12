@@ -4,46 +4,29 @@ from time import time
 from pdb import set_trace
 
 import person
-
-READER_BARCODE = 1
-READER_NFC = 2
-READER_TCP = 3
+from nfc_reader import NfcReader
 
 
 class BeveragesTracker:
-    def __init__(self, barcode_reader=False, nfc_reader=False, tcp_reader=False):
+    def __init__(self):
         '''The init function tries to load data from a file called entries.json
-        and persons.json in the project root.
-        If no readers are set, the program will exit without doing anything.'''
+        and persons.json in the data folder within the project root. It then
+        starts a nfc_reader thread.'''
         self.running = True
         self.entries = self.load_entries()
         self.persons = self.load_persons()
         self.read_queue = Queue()
-        self.readers = []
-        if barcode_reader:
-            from readers.barcode_reader import BarcodeReader
-            self.barcode_reader = BarcodeReader(self, READER_BARCODE)
-            self.readers.append(self.barcode_reader)
-        if nfc_reader:
-            from readers.nfc_reader import NfcReader
-            self.nfc_reader = NfcReader(self, READER_NFC)
-            self.readers.append(self.nfc_reader)
-        if tcp_reader:
-            from readers.tcp_reader import TCPReader
-            self.tcp_reader = TCPReader(self, READER_TCP)
-            self.readers.append(self.tcp_reader)
-        for reader in self.readers:
-            reader.start()
 
-    def enqueue_read(self, data):
-        (kind, id) = data
-        if kind is READER_NFC:
-            person = self.get_person_by_card_uid(id)
-            if person is None:
-                # TODO: log this
-                print('Person not registered yet!')
-                return
-            id = person.id
+        self.nfc_reader = NfcReader(self)
+        self.nfc_reader.start()
+
+    def enqueue_read(self, card_id):
+        person = self.get_person_by_card_uid(card_id)
+        if person is None:
+            # TODO: log this
+            print('Person not registered yet!')
+            return
+        id = person.id
         self.read_queue.put(id)
 
     def no_wait_for_and_return_id(self):
@@ -80,9 +63,9 @@ class BeveragesTracker:
         raise IndexError
 
     def get_person_by_card_uid(self, card_id):
-        '''Return person that a given id belongs to.
-        If the id is not registered yet, this function will
-        return None'''
+        '''Return person that a given id belongs to.  If the id is not
+        registered yet, this function will write the uid to a file called
+        unknown_card_id.txt and return None'''
         for entry in self.load_persons():
             if entry.has_nfc_id(card_id):
                 return entry
@@ -91,7 +74,7 @@ class BeveragesTracker:
 
     def save_entries(self):
         '''This function saves the volatile data as json into a file called
-        entries.json in the current directory.'''
+        entries.json in the data directory.'''
         with open('data/entries.json', 'w') as save_file:
             json.dump(self.entries, save_file, indent=4)
 
@@ -105,7 +88,7 @@ class BeveragesTracker:
             return json.loads('{}')
 
     def load_persons(self):
-        '''Loads and returns persons.json from the current directory.
+        '''Loads and returns persons.json from the data directory.
         If this file does not exist an empty array will be
         returned.'''
         try:
@@ -117,8 +100,7 @@ class BeveragesTracker:
             return json.loads('[]')
 
     def save_persons(self):
-        '''Save all entries to persons.json in the current
-        directory.'''
+        '''Save all entries to persons.json in the data directory.'''
         try:
             with open('data/persons.json', 'w') as persons_file:
                 json.dump(self.persons, persons_file, indent=4)
