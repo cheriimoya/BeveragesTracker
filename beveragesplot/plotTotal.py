@@ -157,7 +157,7 @@ def plot_debt_sum(entries):
 
     plot_single_number(
             'Schulden gesamt',
-            f'{str(round(sum(owes), 2))}€',
+            '{:2f}€'.format(round(sum(owes), 2)),
             'owelist_total.png')
 
 
@@ -172,7 +172,7 @@ def plot_payed_sum(entries):
 
     plot_single_number(
             'Bereits gezahlt',
-            f'{str(round(total_money, 2))}€',
+            '{:2f}€'.format(round(total_money, 2)),
             'payed_total.png')
 
 
