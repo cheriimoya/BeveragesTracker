@@ -1,19 +1,20 @@
 { pkgs ? import <nixpkgs> {  } }:
 
 let
-  python36-beverages-tracker = pkgs.python36.withPackages (p: with p; [
+  python37-beverages-tracker = pkgs.python37.withPackages (p: with p; [
     requests
     tkinter
     flask
     numpy
+    mysql-connector
     matplotlib
   ]);
 in
 
 pkgs.stdenvNoCC.mkDerivation {
-  name = "python36-beverages-tracker";
+  name = "python37-beverages-tracker";
   nativeBuildInputs = with pkgs; [
-    python36-beverages-tracker
+    python37-beverages-tracker
   ];
 }
 

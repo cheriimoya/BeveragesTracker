@@ -1,0 +1,6 @@
+[mysql]
+host = localhost
+database = beverages
+user = beverages
+password = password
+autocommit = True

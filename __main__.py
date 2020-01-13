@@ -7,7 +7,7 @@ from beverages_tracker import BeveragesTracker
 
 
 def main():
-    bev = BeveragesTracker(tcp_reader=True)
+    bev = BeveragesTracker()
     root = Tk()
     app = Application(backend=bev, master=root)
     try:
@@ -18,14 +18,13 @@ def main():
                 continue
             app.active = True
             app.id_var.set(person_id)
-            app.name_var.set(bev.get_person_name_by_id(person_id))
+            app.name_var.set(bev.data_manager.get_person_name_by_id(person_id))
     except KeyboardInterrupt:
-        pass
+        root.destroy()
     except TclError:
         pass
     finally:
-        for reader in bev.readers:
-            reader.shutdown()
+        bev.nfc_reader.shutdown()
 
 
 if __name__ == '__main__':
