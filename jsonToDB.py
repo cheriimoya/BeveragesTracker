@@ -50,9 +50,9 @@ for person_last_id, person_data in entries_json.items():
         if timestamp.startswith('payment_'):
             data_manager.execute_query(
                     'INSERT INTO entries \
-                    (timestamp, person_id, is_payment)\
-                    VALUES (FROM_UNIXTIME(%s), %s, %s)',
-                    (timestamp.split('_')[1], person_id, 1))
+                    (timestamp, person_id, is_payment, payment_value)\
+                    VALUES (FROM_UNIXTIME(%s), %s, %s, %s)',
+                    (timestamp.split('_')[1], person_id, 1, timestamp_data))
             continue
 
         for drink, amount in timestamp_data.items():

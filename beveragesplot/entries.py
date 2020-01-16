@@ -4,9 +4,55 @@ class Entry:
         self.name = name
         self.owes_total = owes_total
         self.drinks = drinks
-        self.time_list = []
-        self.owes_list = []
         self.payments = payments
+
+
+def from_database(data_manager, person_names, person_owes):
+    entries_list = []
+
+    entries = data_manager.select('entries')
+
+    all_beverages = [bev[1] for bev in data_manager.select(
+            'beverages')]
+
+    # select sum(amount) from entries where person_id = 11 and beverage_id = 1
+    for person_id, person in enumerate(person_names):
+        drinks = {}
+        payments = {}
+        beverage_count = []
+
+        # to correct the index for the database
+        person_id += 1
+
+        distinct_beverages = [bev[0] for bev in data_manager.select(
+            'entries',
+            'DISTINCT beverage_id',
+            f'is_payment = 0 AND person_id = {person_id}')]
+
+        for bev_id in distinct_beverages:
+            beverage_count.append(int(data_manager.select(
+                'entries',
+                'SUM(amount)',
+                where=f'is_payment = 0 and person_id = {person_id} and beverage_id = {bev_id}')[0][0]))
+
+        db_payments = data_manager.select(
+            'entries',
+            'timestamp, payment_value',
+            where=f'is_payment = 1 and person_id = {person_id}')
+        for payment in db_payments:
+            payments[f'payment_{int(payment[0].timestamp())}'] = payment[1]
+
+        for index, bev in enumerate(distinct_beverages):
+            drinks[all_beverages[bev-1]] = beverage_count[index]
+
+        entries_list.append(Entry(
+            person_id,
+            person,
+            person_owes[person_id-1],
+            drinks,
+            payments))
+
+    return entries_list
 
 
 def from_json(entries, persons):

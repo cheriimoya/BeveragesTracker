@@ -5,31 +5,35 @@ import plotTotal as pT
 import entries as et
 import urllib.request
 
+from data_manager import DataManager
+
 WEBSERVER_PATH = 'http://192.168.1.21:8000/'
 
 
 def main():
     owe_list_old = []
 
+    data_manager = DataManager()
+
     running = True
 
     while(running):
         try:
-            with urllib.request.urlopen(
-                    WEBSERVER_PATH + "entries.json") as json_entries:
-                entries = json.loads(json_entries.read().decode())
-            with urllib.request.urlopen(
-                    WEBSERVER_PATH + "persons.json") as json_persons:
-                persons = json.loads(json_persons.read().decode())
-        except:
-            entries = {}
-            persons = []
+            # get users from database
+            db_users = data_manager.select('users', 'name, owes')
+            db_users_owe = [user[1] for user in db_users]
+            db_users = [user[0] for user in db_users]
 
-        id_list = et.from_json(entries, persons)
+        except Exception as e:
+            print(e)
+            # TODO log this
+            print('cannot connect to database')
+
+        id_list = et.from_database(data_manager, db_users, db_users_owe)
         owe_list = [obj.owes_total for obj in id_list]
 
         # check after sleep if list is new
-        if owe_list != owe_list_old and entries:
+        if owe_list != owe_list_old:
             # plot facts
             pT.plot_liter_sum(id_list)
             pT.plot_payed_sum(id_list)
