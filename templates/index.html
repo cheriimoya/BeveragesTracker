@@ -1,9 +1,16 @@
 {% if errors %}{{ errors }}{% endif %}
-<form method="post">
-  <textarea style="width: 100%; height: 40%;" name="entries">{{ entries }}</textarea>
-  <br>
-  <textarea style="width: 100%; height: 40%;" name="persons">{{ persons }}</textarea>
-  <br>
-  <input type="submit">
-</form>
+<a href="/create_user">Create a new user</a>
+<table border="1px solid black"><tr><th>id</th><th>name</th><th>last id</th><th>owes</th></tr>
+{% for user_id, user_name, user_last_id, user_owes in users %}
+<tr>
+<td>{{ user_id }}</td>
+<td>{{ user_name }}</td>
+<td>{{ user_last_id }}</td>
+<td>{{ user_owes }}</td>
+<td><a href="/pay?user_id={{ user_id }}">make them PAY</a></td>
+<td><a href="/update_user?user_id={{ user_id }}">Update</a></td>
+<td><a href="/delete_user?user_id={{ user_id }}">Delete</a></td>
+</tr>
+{% endfor %}
+</table>
 Last card id: {{ last_card_id }}

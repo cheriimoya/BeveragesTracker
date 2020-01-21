@@ -1,0 +1,9 @@
+{% if errors %}{{ errors }}{% endif %}
+<form method="post" action="/create_user">
+  name: <input name="name" type="text" placeholder="name">
+  <br/>
+  card id (if more than one separated by comma): <input name="cards" type="text" placeholder="card(s)">
+  <br/>
+  <input type="submit">
+</form>
+Last card id: {{ last_card_id }}

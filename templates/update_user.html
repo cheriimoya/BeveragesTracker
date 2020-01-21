@@ -1,0 +1,9 @@
+{% if errors %}{{ errors }}{% endif %}
+<form method="post" action="/update_user">
+  id: <input name="user_id" type="hidden" value="{{ user_id }}">{{ user_id }}
+  name: <input name="name" type="text" placeholder="{{ user_name }}">
+  owes: <input name="owes" type="text" placeholder="{{ user_owes }}">
+  <input value="update" type="submit">
+</form>
+<br>
+Last card id: {{ last_card_id }}
