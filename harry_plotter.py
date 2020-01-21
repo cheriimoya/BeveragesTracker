@@ -1,13 +1,9 @@
-import json
 from time import sleep
-from pdb import set_trace
-import plotTotal as pT
-import entries as et
-import urllib.request
+
+import beveragesplot.plotTotal as pT
+import beveragesplot.entries as et
 
 from data_manager import DataManager
-
-WEBSERVER_PATH = 'http://192.168.1.21:8000/'
 
 
 def main():

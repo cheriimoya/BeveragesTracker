@@ -1,5 +1,3 @@
-from pdb import set_trace
-
 from tkinter import Tk, TclError
 
 from gui import Application

@@ -45,7 +45,7 @@ def plot_single_number(title, data, filename):
     my_dpi = 96
     fig.tight_layout(pad=0)
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
-    fig.savefig(filename)
+    fig.savefig('images/' + filename)
 
 
 def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
@@ -80,7 +80,7 @@ def plot_one_dimensional(title, ylabel, xlabel, labels, data, filename):
     my_dpi = 96
     fig.tight_layout(pad=0)
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
-    fig.savefig(filename, dpi=my_dpi, bbox_inches='tight')
+    fig.savefig('images/' + filename, dpi=my_dpi, bbox_inches='tight')
 
 
 def plot_liters_detailed(entries):
@@ -148,7 +148,7 @@ def plot_liters_detailed(entries):
     my_dpi = 96
     fig.tight_layout(pad=0)
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
-    fig.savefig('detail.png', dpi=my_dpi, bbox_inches='tight')
+    fig.savefig('images/detail.png', dpi=my_dpi, bbox_inches='tight')
 
 
 def plot_debt_sum(entries):
@@ -336,5 +336,5 @@ def plot_pie(entries):
     my_dpi = 96
     fig.tight_layout(pad=0)
     fig.set_size_inches(1280/my_dpi, 1024/my_dpi)
-    fig.savefig('pie.png', dpi=my_dpi, bbox_inches='tight')
+    fig.savefig('images/pie.png', dpi=my_dpi, bbox_inches='tight')
 
