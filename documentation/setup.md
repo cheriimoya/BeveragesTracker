@@ -4,8 +4,9 @@ Setup
 The hardware part
 ---
 
-As mentioned in the [README.md](../README.md), regarding the hardware of the project, you'll need:
-- a raspberry pi 3b+ or better (the project is only tested on a raspberry pi 3b+)
+As mentioned in the [README.md](../README.md), regarding the hardware part of
+the project, you'll need:
+- a raspberry pi 3b+ or better (the project is only tested on a 3b+)
 - an MFRC522 RFID reader
 - seven female to female jumper wires
 - a touch screen device (the best would be a touch screen attached to the pi)
@@ -31,17 +32,22 @@ For the RFID reader setup have a look at [this guide](https://tutorials-raspberr
 
 Soo if you have a touch screen for the raspberry... good for you!
 
-But if you don't have money for a touchscreen, but you have an old android tablet laying around, you can use that tablet.
+But if you don't have money for a touchscreen, but you have an old android
+tablet laying around, you can use that tablet.
 
-Just connect the tablet to the same network that the raspberry is running on, install a vnc server on the raspi and a client on the tablet and you're good to go (that's what we did!).
+Just connect the tablet to the same network that the raspberry is running on,
+install a vnc server on the raspi and a client on the tablet and you're good to
+go (that's what we did!).
 
 
 Install and run
 ---
 
-I'll assume that you are running raspbian on a raspberry pi with a working xserver and git installed.
+I'll assume that you are running raspbian on a raspberry pi with a working
+xserver and git installed.
 
 Needed programs/tools:
+- mysql/mariadb
 - python3
   - RPi
   - flask
@@ -51,8 +57,8 @@ Needed programs/tools:
   - pip
   - tkinter
 
-Install python3 and pip3 (use your package manager):
-`sudo apt install python3 python3-pip`
+Install mariadb, python3 and pip3 (use your package manager):
+`sudo apt install mariadb python3 python3-pip`
 
 Install tkinter (use your package manager):
 `sudo apt install python3-tk`
@@ -63,4 +69,9 @@ Install the python libraries:
 Clone the project:
 `git clone [this repo url]`
 
-To start the project execute `python3 __main__.py` or just `python3 .` in the project root.
+You'll have to create a database user and a database.
+Then just copy the `config.ini.example` to `config.ini` and adjust.
+
+To start the project execute `python3 __main__.py` or just `python3 .` in the
+project root. If the `BEV_DEV` variable is set to a value that evaluates to
+`True` the tracker will create mock data if a database is empty.

@@ -1,15 +1,17 @@
 Architecture
 ---
 
-The `__main__.py` creates a `BeveragesTracker` object which in turn creates
-a `nfc_reader` object.
+The `__main__.py` creates a `BeveragesTracker` object which in turn creates an
+`nfc_reader` object.
 
 The `nfc_reader` object is started in its own thread and writes all ids it
 reads to the `BeveragesTracker` via a (threadsafe) queue.
 
 After creating the `BeveragesTracker`, the `__main__.py` will create a `Tk`
 root object and a tkinter `Frame` object with all the graphical contents we can
-see in the picture below.  ![tkinter gui](documentation/files/tkinter_gui.png)
+see in the picture below.
+
+![tkinter gui](documentation/files/tkinter_gui.png)
 
 The gui sets all the button to a `disabled` state so they are not clickable
 until the tracker reads a known id.
