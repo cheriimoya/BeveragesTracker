@@ -1,0 +1,8 @@
+{% if errors %}{{ errors }}{% endif %}
+Are you sure you want to delete the user "{{ user_name }}" with the id "{{ user_id }}" and owes of "{{ user_owes }}"?
+<br/>
+<form method="post">
+  <input name="user_id" type="hidden" value="{{ user_id }}">
+  <input value="yes" type="submit">
+  <a href="/">no</a>
+</form>

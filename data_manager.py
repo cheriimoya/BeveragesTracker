@@ -80,7 +80,7 @@ class DataManager():
     def insert(self, table, columns, values):
         self.execute_query(
             f'INSERT INTO {table} ({columns}) \
-            VALUES ({"%s, " * (len(columns)-1)} %s)',
+            VALUES ({"%s, " * (len(columns.split(","))-1)} %s)',
             values)
 
     def select(self, table, columns=None, where=None):
@@ -90,6 +90,8 @@ class DataManager():
             {table} {"" if not where else "WHERE " + where}')
 
     def update(self, table, column, value, where):
+        # TODO fix this, this is broken, column should be a sting
+        # and can therefore not be 1
         assert(len(column) == 1 and len(value) == 1)
         self.execute_query(
             f'UPDATE {table} SET {column} = {value} \
