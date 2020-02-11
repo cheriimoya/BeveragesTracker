@@ -30,7 +30,7 @@ class Application(Frame):
                     font=self.fontType,
                     width=1,
                     command=fun)
-            btn.pack(fill=X, side="top")
+            btn.pack(fill=BOTH, expand=True, side="top")
 
         self.price_var = StringVar()
         self.price_var.set('0.00 €')

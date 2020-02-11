@@ -3,6 +3,6 @@ unknown_card_id.txt
 __pycache__/
 *.pyc
 **/.idea/
-beveragesplot/*.png
+images/*.png
 *.un~
 config.ini

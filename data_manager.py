@@ -29,7 +29,7 @@ class DataManager():
         self.execute_query(
                 "CREATE TABLE IF NOT EXISTS `users` (\
                     `id` INT AUTO_INCREMENT PRIMARY KEY,\
-                    `name` VARCHAR(20) NOT NULL,\
+                    `name` VARCHAR(30) NOT NULL,\
                     `last_id` INT DEFAULT NULL,\
                     `owes` DOUBLE DEFAULT 0.0)")
         self.execute_query(
@@ -48,7 +48,8 @@ class DataManager():
                     `person_id` INT NOT NULL,\
                     `is_payment` TINYINT DEFAULT 0,\
                     `beverage_id` INT,\
-                    `amount` INT)")
+                    `amount` INT,\
+                    `payment_value` FLOAT DEFAULT NULL)")
 
     def insert_mock_data(self):
         '''
@@ -75,6 +76,24 @@ class DataManager():
         for drink in mock_drinks:
             self.execute_query("INSERT INTO beverages (name, price)\
                     values (%s, %s)", (drink[0], drink[1]))
+
+    def insert(self, table, columns, values):
+        self.execute_query(
+            f'INSERT INTO {table} ({columns}) \
+            VALUES ({"%s, " * (len(columns)-1)} %s)',
+            values)
+
+    def select(self, table, columns=None, where=None):
+        # TODO sql injection possible here
+        return self.execute_query(
+            f'SELECT {"*" if not columns else columns} FROM \
+            {table} {"" if not where else "WHERE " + where}')
+
+    def update(self, table, column, value, where):
+        assert(len(column) == 1 and len(value) == 1)
+        self.execute_query(
+            f'UPDATE {table} SET {column} = {value} \
+            WHERE {where}')
 
     def execute_query(self, query, values=None):
         '''
