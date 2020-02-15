@@ -18,7 +18,7 @@ Just replace the two coils with one of this ones:
 
 If both links are down just get two coils with this values:
 - Inductance (L): 2.2 µH
-- Widerstand (Ω): ~110/140 mΩ
+- Resistance (Ω): ~110/140 mΩ
 
 ![coils](./files/coils.png)
 ![coils](./files/coils2.png)
