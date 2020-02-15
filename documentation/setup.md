@@ -13,7 +13,8 @@ the project, you'll need:
 
 ### RFID reader
 
-In this project we used a MFRC522 RFID reader. If you want to read NFC cards like MIFARE DESFire you need to modify your reader as mentioned in [MFRC522.md](./MFRC522.md).
+In this project we used a MFRC522 RFID reader. If you want to read NFC cards like MIFARE DESFire you need to modify your reader as mentioned in [MFRC522.md](./MFRC522.md) or just buy a KKmoon PN532 or any other 
+reader which is able to apply more than 3,3 V.
 Because all NFC cards need a certain strength of the electromagnetic field to properly activate and exchange their data. The MFRC522 reader only applys ~3,3 V this is enough for NFC cards like MIFARE Classic
 but cards like the MIFARE DESFire need ~5 V to get activated and exchange. Thats why we need to modify our reader to get 5 V support.
 
